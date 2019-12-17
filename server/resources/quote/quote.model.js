@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 
-const photoSchema = new mongoose.Schema({
-	url: String,
-	fileName: String,
+const quoteSchema = mongoose.Schema({
+	quote: String,
+	author: String,
 	favorite: Boolean,
-	userPhoto: Boolean,
+	userQuote: Boolean,
+	date: String,
 	user: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: 'user',
@@ -14,4 +15,4 @@ const photoSchema = new mongoose.Schema({
 	timestamps: true
 })
 
-module.exports = Photo = mongoose.model('photo', photoSchema)
+module.exports = Quote = mongoose.model('quote', quoteSchema)

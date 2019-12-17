@@ -2,7 +2,7 @@
 
 ### TODO: Server
 - Refactor backend into /resources
-- Add models
+- Add models for Focus, Notes, 
 - Convert to ES Modules
 - PhotoUpload with Cloudinary
 

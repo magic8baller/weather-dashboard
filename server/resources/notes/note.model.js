@@ -3,16 +3,15 @@ const mongoose = require('mongoose');
 
 const noteSchema = new mongoose.Schema(
 	{
-		text: {
+		title: {
 			type: String,
 			required: true,
-			maxlength: 100
+			maxlength: 50
 		},
-		status: {
+		content: {
 			type: String,
 			required: true,
-			enum: ['active', 'complete'],
-			default: 'active'
+			maxlength: 300
 		},
 		user: {
 			type: mongoose.SchemaTypes.ObjectId,
