@@ -7,8 +7,8 @@ const Todo = require('../../models/Todo');
 
 const User = require('../../models/User');
 
-// @route    todo api/todos
-// @desc     Create a todo
+// @route    POST api/todos
+// @desc     Create a post
 // @access   Private
 router.post(
 	'/',
@@ -58,7 +58,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route    PUT api/todos/:id
-// @desc     Update todo by ID
+// @desc     Update post by ID
 // @access   Private
 
 router.put('/:id', auth, async (req, res) => {
@@ -67,13 +67,13 @@ router.put('/:id', auth, async (req, res) => {
 			.findOneAndUpdate(
 				{
 					user: req.user.id,
-					_id: req.body.id
+					id: req.params.id
 				},
-			req.body,
+				req.body,
 				{new: true}
 			)
 
-		// Check for ObjectId format and todo
+		// Check for ObjectId format and post
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !updatedTodo) {
 			return res.status(404).json({msg: 'Todo not found'});
 		}
@@ -87,18 +87,18 @@ router.put('/:id', auth, async (req, res) => {
 })
 
 // @route    GET api/todos/:id
-// @desc     Get todo by ID
+// @desc     Get post by ID
 // @access   Private
 router.get('/:id', auth, async (req, res) => {
 	try {
-		const todo = await Todo.findById(req.params.id);
+		const post = await Todo.findById(req.params.id);
 
-		// Check for ObjectId format and todo
-		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !todo) {
-			return res.status(404).json({msg: 'todo not found'});
+		// Check for ObjectId format and post
+		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
+			return res.status(404).json({msg: 'Post not found'});
 		}
 
-		res.json(todo);
+		res.json(post);
 	} catch (err) {
 		console.error(err.message);
 
@@ -107,25 +107,25 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 // @route    DELETE api/todos/:id
-// @desc     Delete a todo
+// @desc     Delete a post
 // @access   Private
 router.delete('/:id', auth, async (req, res) => {
 	try {
-		const todo = await Todo.findById(req.params.id);
+		const post = await Todo.findById(req.params.id);
 
-		// Check for ObjectId format and todo
-		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !todo) {
-			return res.status(404).json({msg: 'todo not found'});
+		// Check for ObjectId format and post
+		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
+			return res.status(404).json({msg: 'Post not found'});
 		}
 
 		// Check user
-		if (todo.user.toString() !== req.user.id) {
+		if (post.user.toString() !== req.user.id) {
 			return res.status(401).json({msg: 'User not authorized'});
 		}
 
-		await todo.remove();
+		await post.remove();
 
-		res.json({msg: 'todo removed'});
+		res.json({msg: 'Post removed'});
 	} catch (err) {
 		console.error(err.message);
 

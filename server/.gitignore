@@ -46,7 +46,7 @@ typings/
 
 # TypeScript cache
 *.tsbuildinfo
-config/default.json
+server/config/default.json
 # Optional npm cache directory
 .npm
 
