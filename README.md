@@ -9,6 +9,7 @@
 
 ### TODO: Client
 ✅ - bring in files
+
 📌 - Start making requests to DB
 📌 - Links
 📌 - Settings for weather, quotes, background photos (search, add to faves, upload/add, change)

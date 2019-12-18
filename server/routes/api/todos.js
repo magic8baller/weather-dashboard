@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {check, validationResult} = require('express-validator/check');
 const auth = require('../../middleware/auth');
-
 const Todo = require('../../models/Todo');
-
 const User = require('../../models/User');
 
 // @route    todo api/todos
@@ -35,8 +33,10 @@ router.post(
 			});
 
 			const todo = await newTodo.save();
-
-			res.json(todo);
+			if (!todo) {
+				return res.status(404).send({message: 'Todo could not be saved', success: false})
+			}
+			res.json({data: todo, success: true});
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send('Server Error');
@@ -50,7 +50,10 @@ router.post(
 router.get('/', auth, async (req, res) => {
 	try {
 		const todos = await Todo.find().sort({date: -1});
-		res.json(todos);
+		if (!todos) {
+			return res.status(404).json({message: 'No todos found in database', success: false})
+		}
+		res.status(200).json({data: todos, success: true});
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('Server Error');
@@ -63,21 +66,22 @@ router.get('/', auth, async (req, res) => {
 
 router.put('/:id', auth, async (req, res) => {
 	try {
+		const newTodoBody = {
+			user: req.user.id,
+			...req.body
+		}
+
 		const updatedTodo = await Todo
-			.findOneAndUpdate(
-				{
-					user: req.user.id,
-					_id: req.body.id
-				},
-			req.body,
+			.findByIdAndUpdate(req.params.id,
+				newTodoBody,
 				{new: true}
 			)
 
 		// Check for ObjectId format and todo
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !updatedTodo) {
-			return res.status(404).json({msg: 'Todo not found'});
+			return res.status(404).json({message: 'Todo not found', success: false});
 		}
-		res.status(200).json({data: updatedTodo})
+		res.status(200).json({data: updatedTodo, success: true})
 
 
 	} catch (e) {
@@ -95,10 +99,10 @@ router.get('/:id', auth, async (req, res) => {
 
 		// Check for ObjectId format and todo
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !todo) {
-			return res.status(404).json({msg: 'todo not found'});
+			return res.status(404).json({message: 'todo not found', success: false});
 		}
 
-		res.json(todo);
+		res.status(200).json({data: todo, success: true});
 	} catch (err) {
 		console.error(err.message);
 
@@ -115,17 +119,17 @@ router.delete('/:id', auth, async (req, res) => {
 
 		// Check for ObjectId format and todo
 		if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !todo) {
-			return res.status(404).json({msg: 'todo not found'});
+			return res.status(404).json({message: 'todo not found', success: false});
 		}
 
 		// Check user
 		if (todo.user.toString() !== req.user.id) {
-			return res.status(401).json({msg: 'User not authorized'});
+			return res.status(401).json({message: 'User not authorized', success: false});
 		}
 
 		await todo.remove();
 
-		res.json({msg: 'todo removed'});
+		res.json({message: 'todo removed', success: true});
 	} catch (err) {
 		console.error(err.message);
 
