@@ -4,7 +4,13 @@ const connectDB = require('./config/db');
 const path = require('path');
 const morgan = require('morgan')
 const app = express();
-
+const {check, validationResult} = require('express-validator');
+const auth = require('./middleware/auth');
+const todoRouter = require('./resources/todo/todo.router.js')
+// const {register, login} = require('./utils/auth.js')
+const registerRouter = require('./routes/api/users'
+)
+const loginRouter = require('./routes/api/auth')
 // Connect Database
 connectDB();
 
@@ -13,10 +19,11 @@ connectDB();
 app.use(express.json({extended: false}));
 app.use(morgan('dev'))
 // Define Routes
-app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth', require('./routes/api/auth'));
-
-app.use('/api/todos', require('./routes/api/todos'));
+app.use('/', registerRouter);
+app.use('/', loginRouter);
+app.use('/api', auth)
+app.use('/api/todos', todoRouter)
+// app.use('/api/todos', require('./routes/api/todos'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
