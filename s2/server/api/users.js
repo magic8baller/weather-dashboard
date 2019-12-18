@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
+
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const {check, validationResult} = require('express-validator/check');
 
-const User = require('../../resources/user/user.model.js');
-
-
+const User = require('../../models/User');
 
 // @route    POST api/users
 // @desc     Register user
 // @access   Public
 router.post(
-	'/register',
+	'/',
 	[
 
 		check('email', 'Please include a valid email').isEmail(),
@@ -55,8 +54,8 @@ router.post(
 
 			jwt.sign(
 				payload,
-				process.env.JWT_SECRET,
-				{expiresIn: '1d'},
+				config.get('jwtSecret'),
+				{expiresIn: 360000},
 				(err, token) => {
 					if (err) throw err;
 					res.json({token});
@@ -68,7 +67,5 @@ router.post(
 		}
 	}
 );
-
-
 
 module.exports = router;

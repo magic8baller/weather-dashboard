@@ -1,15 +1,9 @@
-require('dotenv/config')
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
 module.exports = async function(req, res, next) {
   // Get token from header
-	const bearer = req.headers.authorization
-
-	if (!bearer || !bearer.startsWith('Bearer ')) {
-		return res.status(401).end()
-	}
-
-	const token = bearer.split('Bearer ')[1].trim()
+  const token = req.header('x-auth-token');
 
   // Check if not token
   if (!token) {
@@ -18,7 +12,7 @@ module.exports = async function(req, res, next) {
 
   // Verify token
   try {
-		await jwt.verify(token, process.env.JWT_SECRET,  (error, decoded)=>{
+    await jwt.verify(token, config.get('jwtSecret'), (error, decoded)=>{
       if(error){
         res.status(401).json({ msg: 'Token is not valid' });
       }
@@ -32,9 +26,3 @@ module.exports = async function(req, res, next) {
     res.status(500).json({ msg: 'Server Error' });
   }
 };
-
-const newToken = user => {
-	return jwt.sign({id: user.id}, config.secrets.jwt, {
-		expiresIn: config.secrets.jwtExp
-	})
-}
