@@ -4,6 +4,8 @@ const connectDB = require('./config/db');
 const path = require('path');
 const morgan = require('morgan')
 const app = express();
+const cors = require('cors')
+
 const {check, validationResult} = require('express-validator');
 const auth = require('./middleware/auth');
 const todoRouter = require('./resources/todo/todo.router.js')
@@ -16,6 +18,7 @@ connectDB();
 
 // Init Middleware
 // app.use(express.json())
+app.use(cors())
 app.use(express.json({extended: false}));
 app.use(morgan('dev'))
 // Define Routes
