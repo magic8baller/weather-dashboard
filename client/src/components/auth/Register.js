@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 class Register extends Component {
 
 	onSubmit = formProps => {
-		// this.props.registerUser(formProps)
+		this.props.registerUser(formProps)
 		console.log(formProps)
 	}
 	render () {
