@@ -1,6 +1,6 @@
 import {authConstants} from '../constants'
+import axios from 'axios'
 const {AUTHENTICATE_USER, AUTHENTICATE_ERROR, LOGOUT_USER} = authConstants
-
 export const registerUser = (formProps, callback) => async dispatch => {
 	try {
 		const registerResponse = await axios.post('http://localhost:3000/register', formProps)
@@ -17,7 +17,7 @@ export const loginUser = (formProps, callback) => async dispatch => {
 
 	try {
 		const loginResponse = await axios.post('http://localhost:3000/login', formProps)
-		dispatch({type: AUTHENTICATE_USER, payload: })
+		dispatch({type: AUTHENTICATE_USER, payload: loginResponse.data.token})
 		localStorage.setItem('token', loginResponse.data.token)
 		callback()
 	} catch (e) {

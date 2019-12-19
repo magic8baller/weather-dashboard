@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
-// import {connect} from 'react-redux';
-// import {registerUser} from '../../store/actions/auth.actions.js';
 import {Field, reduxForm} from 'redux-form';
 
 
 
 class Register extends Component {
+
+	onSubmit = formProps => {
+		console.log(formProps)
+	}
 	render () {
+		const {handleSubmit} = this.props
 		return (
-			<>
-				<h2>Register An Account</h2>
-				<form>
+
+				<form onSubmit={handleSubmit(this.onSubmit)}>
 					<fieldset>
 						<label htmlFor="Email">Email: </label>
 						<Field
@@ -27,8 +29,9 @@ class Register extends Component {
 							component='input'
 						/>
 					</fieldset>
+					<button>Submit</button>
 				</form>
-			</>
+
 		)
 	}
 }
