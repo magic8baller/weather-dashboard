@@ -9,15 +9,15 @@ class Header extends Component {
 		// if (this.props.isAuthenticated && this.props.token) {
 			return (
 				<div>
-					<Link to="/signout">Sign Out</Link>
+					<Link to="/logout">Sign Out</Link>
 					<Link to="/feature">Feature</Link>
 				{/* </div> */}
 			{/* ); */}
 		{/* } else { */}
 			{/* return ( */}
 				{/* <div> */}
-					<Link to="/signup">Sign Up</Link>
-					<Link to="/signin">Sign In</Link>
+					<Link to="/register">Sign Up</Link>
+					<Link to="/login">Sign In</Link>
 				</div>
 			);
 		}

@@ -19,6 +19,7 @@ export const getGeolocation = () => async dispatch => {
 export const fetchCurrentWeather = ({latitude, longitude}) => async (dispatch) => {
 	try {
 		let weatherResponse = await axios.get(`${API}?lat=${latitude}&lon=${longitude}&cnt=10&appid=${REACT_APP_OPEN_WEATHER_KEY}&units=imperial`)
+		localStorage.setItem('coords', JSON.stringify({latitude, longitude}))
 		localStorage.setItem('weather', JSON.stringify(weatherResponse.data))
 		dispatch({type: GET_CURRENT_WEATHER, payload: weatherResponse.data})
 	} catch (err) {
