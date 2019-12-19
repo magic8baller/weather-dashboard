@@ -25,6 +25,7 @@
 - OpenWeatherMap API
 - Unsplash API
 - localstorage
+- Browser geolocation API
 
 
 ### Server
