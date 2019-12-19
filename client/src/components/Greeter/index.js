@@ -1,12 +1,13 @@
 import StyledGreeting from './StyledGreeting'
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {setName} from '../../store/actions'
 class Greeter extends Component {
 
-	state = {name: ''}
+	state = {name: JSON.parse(localStorage.getItem('name')) || ''}
 	handleChange = e => {
-	this.setState({ name: e.target.value });
+		this.setState({name: e.target.value});
+		localStorage.setItem('name', JSON.stringify(e.target.value))
 	}
 
 	handleSubmit = e => {
@@ -14,10 +15,10 @@ class Greeter extends Component {
 		this.props.setName(this.state.name)
 
 	}
-	render() {
+	render () {
 		return (
 			<div>
-				<StyledGreeting value={this.state.name} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+				<StyledGreeting value={this.state.name} handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
 			</div>
 		)
 	}

@@ -40,7 +40,7 @@ router.post(
 
 
 			user = new User({
-				email,
+				name,				email,
 				password
 			});
 

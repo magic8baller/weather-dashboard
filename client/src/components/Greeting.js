@@ -22,9 +22,10 @@ class Greeting extends Component {
 
 
 	render () {
+		const storedName = localStorage.getItem('name')
 		return (
 			<div>
-{this.state.greeting} {this.props.name}!
+{this.state.greeting} {storedName}!
 			</div>
 		)
 	}

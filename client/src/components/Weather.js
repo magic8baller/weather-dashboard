@@ -5,6 +5,8 @@ class Weather extends Component {
 
 	componentDidMount() {
 		this.props.fetchCurrentWeather(this.props.position)
+		localStorage.setItem('coords', JSON.stringify(this.props.position))
+	
 	}
 
 	componentDidUpdate(prevProps, prevState) {

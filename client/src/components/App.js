@@ -1,22 +1,28 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Dashboard from './Dashboard'
 import Clock from './Clock'
 import Navbar from './Navbar'
 import Greeting from './Greeting'
+
 import Greeter from './Greeter'
 import {connect} from 'react-redux'
+import Header from './Header'
 
-function App(props) {
-  return (
-    <div>
-			{props.name ? (<>
+class App extends Component {
 
+
+  render() {
+		const storedName = localStorage.getItem('name')
+    return (<div>
+			{storedName ? <>
+				<Header />
 			<Clock />
 			<Greeting />
-			<Dashboard /></>) : <Greeter/>}
+			<Dashboard /></> : <Greeter />}
 
-    </div>
-  );
+    </div>);
+  }
+
 }
 
 const mapStateToProps = (state) => ({name: state.greeting.name})
