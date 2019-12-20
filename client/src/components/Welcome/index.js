@@ -12,10 +12,10 @@ class Welcome extends Component {
 
 
 	render () {
-		const storedName = localStorage.getItem('name')
+		// const storedName = localStorage.getItem('name')
 		return (<div>
 
-			{storedName ? <>
+			{this.props.isAuthenticated ? <>
 				<Clock />
 				<Greeting />
 				<Dashboard /></> : <WelcomeMain />}
@@ -25,6 +25,6 @@ class Welcome extends Component {
 
 }
 
-const mapStateToProps = (state) => ({name: state.greeting.name})
+const mapStateToProps = (state) => ({isAuthenticated: state.auth.isAuthenticated})
 
 export default connect(mapStateToProps)(Welcome);

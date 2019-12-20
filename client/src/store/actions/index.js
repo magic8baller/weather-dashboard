@@ -19,14 +19,22 @@ export const getGeolocation = () => async dispatch => {
 export const fetchCurrentWeather = ({latitude, longitude}) => async (dispatch) => {
 	try {
 		let weatherResponse = await axios.get(`${API}?lat=${latitude}&lon=${longitude}&cnt=10&appid=${REACT_APP_OPEN_WEATHER_KEY}&units=imperial`)
-		localStorage.setItem('coords', JSON.stringify({latitude, longitude}))
-		localStorage.setItem('weather', JSON.stringify(weatherResponse.data))
+		// localStorage.setItem('coords', JSON.stringify({latitude, longitude}))
+		// localStorage.setItem('weather', JSON.stringify(weatherResponse.data))
 		dispatch({type: GET_CURRENT_WEATHER, payload: weatherResponse.data})
 	} catch (err) {
 		console.error(err)
 	}
 }
 
-export const setName = (name) => dispatch => dispatch({type: 'SET_NAME', payload: name})
+export const setName = (name) => dispatch => {
+	localStorage.setItem('name', JSON.stringify(name))
+	dispatch({type: 'SET_NAME', payload: name})}
 export const setEmail = email => dispatch => dispatch({type:'SET_EMAIL', payload: email})
 export const setPassword = password => dispatch => dispatch({type:'SET_PASSWORD', payload: password})
+
+export const getName = (email) => async dispatch => {
+let getEmail =axios.get('http://localhost:8080/')
+dispatch({type: 'GET_NAME', payload: localStorage.getItem('name')})
+
+}

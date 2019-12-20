@@ -1,11 +1,17 @@
-import {authConstants} from '../constants'
 import axios from 'axios'
-const {AUTHENTICATE_USER, AUTHENTICATE_ERROR, LOGOUT_USER} = authConstants
+import jwt_decode from 'jwt-decode'
+import {setAuthToken} from '../../utils/setAuthToken.js'
+import {authConstants} from '../constants'
+const {SET_CURRENT_USER, AUTHENTICATE_ERROR, LOGOUT_USER} = authConstants
 export const registerUser = (formProps, callback) => async dispatch => {
 	try {
 		const registerResponse = await axios.post('http://localhost:8080/register', formProps)
-		dispatch({type: AUTHENTICATE_USER, payload: registerResponse.data.token})
-		localStorage.setItem('token', registerResponse.data.token)
+
+		const {token} = registerResponse.data
+		localStorage.setItem('token', token)
+		setAuthToken(token)
+		const decoded = jwt_decode(token)
+		dispatch(setCurrentUser(decoded))
 		callback()
 
 	} catch (e) {
@@ -17,16 +23,24 @@ export const loginUser = (formProps, callback) => async dispatch => {
 
 	try {
 		const loginResponse = await axios.post('http://localhost:8080/login', formProps)
-		dispatch({type: AUTHENTICATE_USER, payload: loginResponse.data.token})
-		localStorage.setItem('token', loginResponse.data.token)
+		const {token} = loginResponse.data
+		localStorage.setItem('token', token)
+		setAuthToken(token)
+		const decoded = jwt_decode(token)
+		dispatch(setCurrentUser(decoded))
 		callback()
 	} catch (e) {
 		dispatch({type: AUTHENTICATE_ERROR, payload: 'Invalid login credentials'})
 	}
 }
 
-export const logout = () => {
+export const logout = () => dispatch => {
 	localStorage.removeItem('token')
+	setAuthToken(false)
+	dispatch(setCurrentUser({}))
+	// return {type: LOGOUT_USER, payload: ''}
+}
 
-	return {type: LOGOUT_USER, payload: ''}
+export const setCurrentUser = decoded => {
+	return {type: SET_CURRENT_USER, payload: decoded}
 }
