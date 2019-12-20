@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {fetchCurrentWeather} from '../store/actions'
+import Spinner from './common/Spinner.js'
 class Weather extends Component {
 
 	componentDidMount() {
@@ -33,7 +34,7 @@ class Weather extends Component {
 			</div>
 		)
 		} else {
-			return (<h1>Loading...</h1>)
+			return (<Spinner/>)
 		}
 
 	}
