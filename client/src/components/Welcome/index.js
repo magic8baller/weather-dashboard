@@ -16,8 +16,7 @@ class Welcome extends Component {
 		return (<div>
 
 			{this.props.isAuthenticated ? <>
-				<Clock />
-				<Greeting />
+		
 				<Dashboard /></> : <WelcomeMain />}
 
 		</div>);

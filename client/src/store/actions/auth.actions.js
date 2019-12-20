@@ -34,7 +34,7 @@ export const loginUser = (formProps, callback) => async dispatch => {
 	}
 }
 
-export const logout = () => dispatch => {
+export const logoutUser = () => dispatch => {
 	localStorage.removeItem('token')
 	setAuthToken(false)
 	dispatch(setCurrentUser({}))

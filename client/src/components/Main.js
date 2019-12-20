@@ -2,7 +2,7 @@ import React from 'react'
 import Header from './Header'
 
 
-const App = ({children}) => {
+const Main = ({children}) => {
 	return (
 		<div>
 			<Header />
@@ -10,4 +10,4 @@ const App = ({children}) => {
 		</div>
 	)
 }
-export default App
+export default Main
