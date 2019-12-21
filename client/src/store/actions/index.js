@@ -1,19 +1,21 @@
 import axios from 'axios';
 import {GEOLOCATION_DENIED, GET_CURRENT_WEATHER, GET_GEOLOCATION} from './actionTypes';
 const {REACT_APP_OPEN_WEATHER_KEY} = process.env;
-const API = 'http://api.openweathermap.org/data/2.5/weather';
+const API = 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather';
 
 
-export const getGeolocation = () => async dispatch => {
-	navigator.geolocation.getCurrentPosition(position => {
-		// localStorage.setItem('coords', JSON.stringify(position.coords))
-		dispatch({type: GET_GEOLOCATION, payload: position.coords})
-	},
-		error => {
-			if (error.code === 1) {
-				dispatch({type: GEOLOCATION_DENIED, payload: false})
-			}
-		})
+export const getGeolocation = () => dispatch => {
+
+		navigator.geolocation.getCurrentPosition(pos => {
+			// const lon = pos.coords.longitude.toFixed(5);
+			// const lat = pos.coords.latitude.toFixed(5);
+
+			dispatch({
+				type: GET_GEOLOCATION,
+				payload: pos.coords
+			});
+		});
+
 }
 
 export const fetchCurrentWeather = ({latitude, longitude}) => async (dispatch) => {
@@ -27,14 +29,16 @@ export const fetchCurrentWeather = ({latitude, longitude}) => async (dispatch) =
 	}
 }
 
-export const setName = (name) => dispatch => {
-	localStorage.setItem('name', JSON.stringify(name))
+export const setName = (name) => (dispatch, getState) => {
+	// localStorage.setItem('name', JSON.stringify(name))
+	const {name} = getState().auth.user.user
 	dispatch({type: 'SET_NAME', payload: name})}
 export const setEmail = email => dispatch => dispatch({type:'SET_EMAIL', payload: email})
 export const setPassword = password => dispatch => dispatch({type:'SET_PASSWORD', payload: password})
 
-export const getName = (email) => async dispatch => {
-let getEmail =axios.get('http://localhost:8080/')
-dispatch({type: 'GET_NAME', payload: localStorage.getItem('name')})
+export const getName = () => async (dispatch, getState) => {
+	const {name} = getState().auth.user.user
+
+dispatch({type: 'GET_NAME', payload: name})
 
 }

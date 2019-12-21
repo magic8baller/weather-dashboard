@@ -40,7 +40,29 @@ export const logoutUser = () => dispatch => {
 	dispatch(setCurrentUser({}))
 	// return {type: LOGOUT_USER, payload: ''}
 }
+export const meFromToken =(storedToken) => async (dispatch)=> {
+	const request = await axios({
+		method: 'get',
+		url: `http://localhost:8080/me?token=${storedToken}`,
+		headers: {
+			'Authorization': `Bearer ${storedToken}`
+		}
+	});
+		dispatch({type: 'ME_FROM_TOKEN', payload: request})
+}
+export function meFromTokenSuccess (currentUser) {
+	return {
+		type: 'ME_FROM_TOKEN_SUCCESS',
+		payload: currentUser
+	};
+}
 
+export function meFromTokenFailure (error) {
+	return {
+		type: 'ME_FROM_TOKEN_FAILURE',
+		payload: error
+	};
+}
 export const setCurrentUser = decoded => {
 	return {type: SET_CURRENT_USER, payload: decoded}
 }

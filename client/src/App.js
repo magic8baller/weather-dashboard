@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Provider} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Main from './components/Main'
+// import Main from './components/Main'
 import './index.css';
 import {store} from './store';
 import Welcome from './components/Welcome/'
@@ -38,7 +38,7 @@ const App = () => (
 
 	<Provider store={store}>
 		<Router>
-			<Main>
+			{/* <Main> */}
 				<div className="container">
 
 					<Route path='/' exact component={Welcome} />
@@ -49,7 +49,7 @@ const App = () => (
 					</Switch>
 					{/* <Route path='/logout' component={Logout}/> */}
 				</div>
-			</Main>
+			{/* </Main> */}
 		</Router>
 	</Provider>
 	)

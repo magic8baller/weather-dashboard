@@ -5,7 +5,11 @@ import Spinner from './common/Spinner.js'
 class Weather extends Component {
 
 	componentDidMount() {
-		this.props.fetchCurrentWeather(this.props.position)
+
+		if (!this.props.currentWeather) {
+
+			this.props.fetchCurrentWeather(this.props.position)
+		}
 		// localStorage.getItem('coords', JSON.stringify(this.props.position))
 
 	}

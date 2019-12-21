@@ -17,6 +17,11 @@ export default (state = initialState, action) => {
 			return {...state, isAuthenticated: false, errorMessage: action.payload}
 			case LOGOUT_USER:
 				return {...state, isAuthenticated: false, authToken: action.payload}
+				case 'ME_FROM_TOKEN':
+					return {...state, user: null}
+					case 'ME_FROM_TOKEN_SUCCESS':
+						return {...state, user: action.payload.data.user}
+
 		default:
 			return state;
 	}
