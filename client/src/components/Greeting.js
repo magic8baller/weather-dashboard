@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {getGreeting} from '../utils'
+import {setName} from '../store/actions'
 import {connect} from 'react-redux'
 class Greeting extends Component {
 
@@ -12,6 +13,8 @@ class Greeting extends Component {
 	}
 
 	componentDidMount () {
+		this.props.setName()
+
 		this.timerId = setInterval(() => {this.updateGreeting()}, 2000)
 	}
 
@@ -22,13 +25,13 @@ class Greeting extends Component {
 
 
 	render () {
-		const storedName = localStorage.getItem('name')
+
 		return (
 			<div>
-{this.state.greeting} {storedName}!
+{this.state.greeting} {this.props.name}!
 			</div>
 		)
 	}
 }
 const mapStateToProps = state => ({name: state.greeting.name})
-export default connect(mapStateToProps)(Greeting)
+export default connect(mapStateToProps, {setName})(Greeting)

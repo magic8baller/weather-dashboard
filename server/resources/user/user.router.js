@@ -5,5 +5,5 @@ const userRouter = Router()
 
 userRouter.get('/', me)
 userRouter.put('/', updateMe)
-userRouter.get('/me', meFromToken)
+// userRouter.get('/me', meFromToken)
 module.exports = userRouter

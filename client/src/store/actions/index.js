@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {GEOLOCATION_DENIED, GET_CURRENT_WEATHER, GET_GEOLOCATION} from './actionTypes';
+import {weatherAPI} from '../../API'
 const {REACT_APP_OPEN_WEATHER_KEY} = process.env;
-const API = 'http://api.openweathermap.org/data/2.5/weather';
+const {baseURL} = weatherAPI
+const API = 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather';
 
 
 export const getGeolocation = () => async dispatch => {
@@ -27,14 +29,15 @@ export const fetchCurrentWeather = ({latitude, longitude}) => async (dispatch) =
 	}
 }
 
-export const setName = (name) => dispatch => {
-	localStorage.setItem('name', JSON.stringify(name))
-	dispatch({type: 'SET_NAME', payload: name})}
+export const setName = () => (dispatch, getState) => {
+	let user = getState().auth.user.user
+	localStorage.setItem('name', JSON.stringify(user.name))
+	dispatch({type: 'SET_NAME', payload: user.name})}
 export const setEmail = email => dispatch => dispatch({type:'SET_EMAIL', payload: email})
 export const setPassword = password => dispatch => dispatch({type:'SET_PASSWORD', payload: password})
 
 export const getName = (email) => async dispatch => {
-let getEmail =axios.get('http://localhost:8080/')
+// let getEmail =axios.get('http://localhost:8080/')
 dispatch({type: 'GET_NAME', payload: localStorage.getItem('name')})
 
 }
