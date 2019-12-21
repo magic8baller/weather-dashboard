@@ -1,9 +1,9 @@
 const {Router} = require('express')
-import {me, updateMe} = require('./user.controllers')
+const {me, updateMe, meFromToken} = require('./user.controller')
 
 const userRouter = Router()
 
 userRouter.get('/', me)
 userRouter.put('/', updateMe)
-
+userRouter.get('/me', meFromToken)
 module.exports = userRouter

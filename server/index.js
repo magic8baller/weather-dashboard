@@ -9,6 +9,7 @@ const cors = require('cors')
 const {check, validationResult} = require('express-validator');
 const auth = require('./middleware/auth');
 const todoRouter = require('./resources/todo/todo.router.js')
+const userRouter = require('./resources/user/user.router')
 // const {register, login} = require('./utils/auth.js')
 const registerRouter = require('./routes/api/users'
 )
@@ -25,6 +26,7 @@ app.use(morgan('dev'))
 app.use('/', registerRouter);
 app.use('/', loginRouter);
 app.use('/api', auth)
+app.use('/api/users', userRouter);
 app.use('/api/todos', todoRouter)
 // app.use('/api/todos', require('./routes/api/todos'));
 

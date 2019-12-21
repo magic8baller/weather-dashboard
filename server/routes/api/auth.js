@@ -57,7 +57,9 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
+					id: user.id,
+					name: user.name,
+					email: user.email
         }
       };
 
@@ -66,8 +68,9 @@ router.post(
         config.get('jwtSecret'),
         { expiresIn: 360000 },
         (err, token) => {
-          if (err) throw err;
-          res.json({ token });
+					if (err) throw err;
+					console.log(token)
+          res.json({ payload, token });
         }
       );
     } catch (err) {
