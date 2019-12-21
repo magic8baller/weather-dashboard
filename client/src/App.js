@@ -46,6 +46,8 @@ const App = () => (
 					<Route path='/login' component={Login} />
 					<Switch>
 						<PrivateRoute exact path="/dashboard" component={Dashboard} />
+						{/* <PrivateRoute path="/addTodo" exact component={AddTodo} />
+						<PrivateRoute path="/editTodo/:id" exact component={EditTodo} /> */}
 					</Switch>
 					{/* <Route path='/logout' component={Logout}/> */}
 				</div>

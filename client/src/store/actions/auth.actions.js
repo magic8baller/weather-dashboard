@@ -2,7 +2,8 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import {setAuthToken} from '../../utils/setAuthToken.js'
 import {authConstants} from '../constants'
-const {SET_CURRENT_USER, AUTHENTICATE_ERROR, LOGOUT_USER} = authConstants
+const {SET_CURRENT_USER, AUTHENTICATE_ERROR, USER_LOADING, USER_LOADED, AUTH_ERROR,LOGOUT_USER} = authConstants
+// const {} =
 export const registerUser = (formProps, callback) => async dispatch => {
 	try {
 		const registerResponse = await axios.post('http://localhost:8080/register', formProps)
@@ -43,4 +44,15 @@ export const logoutUser = () => dispatch => {
 
 export const setCurrentUser = decoded => {
 	return {type: SET_CURRENT_USER, payload: decoded}
+}
+
+export const loadUser = () => async dispatch => {
+	dispatch({type: USER_LOADING})
+	setAuthToken(localStorage.token)
+	try {
+		const res = await axios.get('http://localhost:8080/me')
+		dispatch({type: USER_LOADED, payload: res.data})
+	} catch (error) {
+		dispatch({type: AUTH_ERROR})
+	}
 }
