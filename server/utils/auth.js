@@ -54,7 +54,7 @@ exports.register = async (req, res) => {
 			{expiresIn: '1d'},
 			(err, token) => {
 				if (err) throw err;
-				res.json({token});
+				res.json({payload,token});
 			}
 		);
 	} catch (err) {
@@ -96,8 +96,8 @@ exports.login = async (req, res) => {
 
 		jwt.sign(
 			payload,
-			config.get('jwtSecret'),
-			{expiresIn: 360000},
+			process.env.JWT_SECRET,
+			{expiresIn: '1d'},
 			(err, token) => {
 				if (err) throw err;
 				res.json({token});
@@ -117,7 +117,7 @@ exports.protect = async (req, res, next) => {
 		return res.status(401).end()
 	}
 
-	const token = bearer.split('Bearer ')[1].trim()
+	const token = bearer.split(' ')[1].trim()
 	let payload
 	try {
 		payload = await verifyToken(token)

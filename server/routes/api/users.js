@@ -8,7 +8,8 @@ const User = require('../../resources/user/user.model.js');
 
 
 
-// @route    POST api/users
+
+// @route    POST /register
 // @desc     Register user
 // @access   Public
 router.post(

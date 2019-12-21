@@ -28,7 +28,7 @@ exports.createOne =  async (req, res) => {
 			if (!todo) {
 				return res.status(404).send({message: 'Todo could not be saved', success: false})
 			}
-			res.json({data: todo, success: true});
+			res.json(todo);
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send('Server Error');
@@ -45,7 +45,7 @@ exports.getAll = async (req, res) => {
 			if (!todos) {
 				return res.status(404).json({message: 'No todos found in database', success: false})
 			}
-			res.status(200).json({data: todos, success: true});
+			res.status(200).json(todos);
 		} catch (err) {
 			console.error(err.message);
 			res.status(500).send('Server Error');
@@ -64,17 +64,17 @@ exports.updateOne = async (req, res) => {
 				...req.body
 			}
 
-			const updatedTodo = await Todo
+			const todo = await Todo
 				.findByIdAndUpdate(req.params.id,
 					newTodoBody,
 					{new: true}
 				)
 
 			// Check for ObjectId format and todo
-			if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !updatedTodo) {
+			if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !todo) {
 				return res.status(404).json({message: 'Todo not found', success: false});
 			}
-			res.status(200).json({data: updatedTodo, success: true})
+			res.status(200).json(todo)
 
 
 		} catch (e) {
@@ -88,7 +88,7 @@ exports.updateOne = async (req, res) => {
 // @access   Private
 exports.getOne =  async (req, res) => {
 		try {
-			const todo = await Todo.findById(req.params.id);
+			const todo = await Todo.find({user: req.user.id});
 
 			// Check for ObjectId format and todo
 			if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !todo) {
